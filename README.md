@@ -22,7 +22,7 @@ Probability of precipitation.
 Flight delay.
 
 ## Prototype: 
-Looking for data sets, training model and give the result.
+Give results through pictures.
 
 ## Test: 
 Compare the analysis result with the actual situation.
