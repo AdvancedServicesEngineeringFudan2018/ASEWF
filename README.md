@@ -4,7 +4,7 @@
 
 * Define: To provide weather forecasts for visitors and local users in need.
 
-* Ideate: 
+* Ideate:  
 Scenario: When tourists come to a new place, they need to know the weather for the next few days. Do they need to prepare rain gear? Do they need to adjust their journey for weather reasons?  
 Possible solutions: We need to obtain the local meteorological data, analyze and predict the data, and finally give the analysis results.  
 Key involved stakeholders: Tourists and meteorological agency.  
