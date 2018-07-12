@@ -1,16 +1,28 @@
 # ASEWF
-## Scenario
-* Empathize: Tourists who visit the place under prediction.
+## Empathize: 
+Local meteorological bureau.
 
-* Define: To provide weather forecasts for visitors and local users in need.
+## Define: 
+Use weather forecasting to natural disasters warning.
 
-* Ideate:  
-Scenario: When tourists come to a new place, they need to know the weather for the next few days. Do they need to prepare rain gear? Do they need to adjust their journey for weather reasons?  Do they need to change their clothes? All the answers are proivded by this program.  
-Possible solutions: We need to obtain the local meteorological data, analyze and predict the data, and finally give the analysis results.  
-Key involved stakeholders: Tourists and meteorological agency.    
-Key metrics for evaluating: Probability of precipitation.  
-Similar or related scenarios: Flight delay, disaster warning and so on.
+## Ideate:  
+### Scenario:
+The Meteorological Bureau obtains data such as cloud maps and barometric pressure maps through radar, climate satellites and other equipment. We use these data to predict future weather conditions, and based on these results, provide meteorological bureaus with mountain fire warnings and urban flood warnings to give advise for the Meteorological Bureau.  
+### Possible solutions: 
+* Collect the data, process it and aggregate it into the appropriate format, then clean it up.
 
-* Prototype: Looking for data sets, training model and give the result.
+* Focus on analyzing trends in the data, the goal is to select the appropriate features and use Python's statsmodels and scikit-learn libraries to build a linear regression model. Discussion To build a linear regression model, you must make the necessary assumptions and demonstrate how to evaluate the data features to build a robust model and finally test and validate the model.
 
-* Test: Compare the analysis result with the actual situation.
+* Finally, the focus will be on using neural networks. Compare the process of constructing a neural network model and constructing a linear regression model, the results, and accuracy. 
+### Key involved stakeholders:
+Meteorological Bureau and the public.    
+### Key metrics for evaluating: 
+Probability of precipitation.  
+### Similar or related scenarios: 
+Flight delay.
+
+## Prototype: 
+Looking for data sets, training model and give the result.
+
+## Test: 
+Compare the analysis result with the actual situation.
