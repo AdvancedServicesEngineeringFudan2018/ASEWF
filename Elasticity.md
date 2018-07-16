@@ -9,5 +9,4 @@
 
 ## Elasticity Rules
 1. When data transmission delay occurs, use the most recent data for forecast service.
-2. When there is a small amount of data and a data error occurs, the data is manually corrected.
-3. When the prediction delay occurs, the number of layers of the neural network is reduced, providing a relatively rough prediction result.
+2. When the prediction delay occurs, the number of layers of the neural network is reduced, providing a relatively rough prediction result.
