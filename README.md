@@ -6,10 +6,8 @@
 
 ## Empathize: 
 The local user.
-
 ## Define: 
 It provides weather forecasting services with different accuracy depending on whether it is paid or not.
-
 ## Ideate:  
 ### Scenario:
 Users need to know the future weather in their city. This project provides users with weather forecasts and provides different accuracy services for free users and paying users.  
@@ -25,6 +23,5 @@ The local user.
 Probability of precipitation.  
 ### Similar or related scenarios: 
 Flight delay.
-
-## Test: 
+## Test:
 Compare the notification with the actual situation.
