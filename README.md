@@ -25,3 +25,6 @@ Probability of precipitation.
 Flight delay.
 ## Test:
 Compare the notification with the actual situation.
+
+## Framework
+!(./img/Framework.png)
