@@ -1,0 +1,173 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>ASEWF</title>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+	<link rel="stylesheet" href="./css/style.css" type="text/css"/>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=e674676357f84a97c310d3e140594d33&plugin=AMap.Geocoder&plugin=AMap.Autocomplete"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+<body>
+<h1>Weather Froecast System</h1>
+<div>
+<div id="info">
+<div id="location"></div>
+<div id="result"></div>
+<span>Enter the address you want to check:</span>
+<div><input id='inputAddress'/><button id='find' onclick='geocoder()'>Find</button><button id='pay'>Paid users can view other cities</button></div>
+<div id="addressResult"></div>
+<div id="weather"></div>
+<div id="weatherF"></div>
+<button id='submit'>Send weather conditions to the mail</button>
+
+</div>
+<div><div id='allmap' style='width: 500px; height: 500px;'></div></div>
+</div>
+<script type="text/javascript">
+    var map, geolocation;
+    //Load the map and call the browser location service
+    map = new AMap.Map('allmap', {
+        resizeEnable: true
+    });
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,
+            timeout: 10000,
+            buttonOffset: new AMap.Pixel(10, 20),
+            zoomToAccuracy: true,
+            buttonPosition:'RB'
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, 'complete', onComplete);//Return location information
+        AMap.event.addListener(geolocation, 'error', onError);      //Return positioning error message
+    });
+	
+    //Analyze location results
+    function onComplete(data) {
+        var str=['Successful positioning'];
+        str.push('Longitude：' + data.position.getLng());
+        str.push('Latitude：' + data.position.getLat());
+		//Reverse address coding
+		var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+        });
+		lnglatXY = [data.position.getLng(), data.position.getLat()]; 	
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                geocoder_CallBack(result);
+            }
+        });
+		var marker = new AMap.Marker({
+            map: map,
+            position: lnglatXY
+        });
+        map.setFitView();
+        document.getElementById('location').innerHTML = str.join('<br>');
+    }
+	
+    //Parsing positioning error information
+    function onError(data) {
+        document.getElementById('location').innerHTML = 'Positioning failure';
+    }
+	
+    function geocoder_CallBack(data) {
+        var address = data.regeocode.formattedAddress; //Return address description
+		document.getElementById("result").innerHTML = 'Current location is:' + address;
+		var cityIndex=address.indexOf('市');
+		var provinceIndex=address.indexOf('区');
+		//console.log(cityIndex);
+		//console.log(provinceIndex);
+		if(provinceIndex != -1) {
+			var city=address.substring(cityIndex+1, provinceIndex+1);
+			//console.log(city);
+			weatherDis(city);
+		} else if(cityIndex != -1){
+			var city=address.substring(0, cityIndex+1);
+			//console.log(city);
+			weatherDis(city);
+		}
+    }
+	
+	function geocoder() {
+        var geocoder = new AMap.Geocoder({
+        });
+        //Geocoding, return geocoding results
+		var addressStr = document.getElementById("inputAddress").value;
+        geocoder.getLocation(addressStr, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                address_CallBack(result);
+            }
+        });
+    }
+	
+    function addMarker(i, d) {
+        var marker = new AMap.Marker({
+            map: map,
+            position: [ d.location.getLng(),  d.location.getLat()]
+        });
+    }
+	
+    //Geocoding returns results display
+    function address_CallBack(data) {
+        var resultStr = "";
+		var addressStr = "";
+        //Array of geocoded results
+        var geocode = data.geocodes;
+        for (var i = 0; i < geocode.length; i++) {
+            //Splicing output html
+			addressStr = geocode[i].formattedAddress;
+            resultStr += "<b>地址</b>：" + geocode[i].formattedAddress + "coordinate:" + geocode[i].location.getLng() + ", " + geocode[i].location.getLat();
+			addMarker(i, geocode[i]);
+        }
+        map.setFitView();
+        document.getElementById("addressResult").innerHTML = resultStr;
+		var cityIndex=addressStr.indexOf('市');
+		var provinceIndex=addressStr.indexOf('区');
+		//console.log(cityIndex);
+		//console.log(provinceIndex);
+		if(provinceIndex != -1) {
+			var city=addressStr.substring(cityIndex+1, provinceIndex+1);
+			//console.log(city);
+			weatherDis(city);
+		} else if(cityIndex != -1){
+			var city=addressStr.substring(0, cityIndex+1);
+			//console.log(city);
+			weatherDis(city);
+		}
+    }
+	
+	function weatherDis(city) {
+		AMap.service('AMap.Weather', function() {
+        var weather = new AMap.Weather();
+        //查询实时天气信息, 查询的城市到行政级别的城市，如朝阳区、杭州市
+        weather.getLive(city, function(err, data) {
+            if (!err) {
+                var str = [];
+                str.push('<div>城市/区：' + data.city + '</div>');
+                str.push('<div>天气：' + data.weather + '</div>');
+                str.push('<div>温度：' + data.temperature + '℃</div>');
+                str.push('<div>风向：' + data.windDirection + '</div>');
+                str.push('<div>风力：' + data.windPower + ' 级</div>');
+                str.push('<div>空气湿度：' + data.humidity + '</div>');
+				document.getElementById('weather').innerHTML = str.join("");
+            }
+        });
+        //未来4天天气预报
+        weather.getForecast(city, function(err, data) {
+            if (err) {return;}
+            var str = [];
+            for (var i = 0,dayWeather; i < data.forecasts.length; i++) {
+                dayWeather = data.forecasts[i];
+                str.push(dayWeather.date+' <div class="weather">'+dayWeather.dayWeather+'</div> '+ dayWeather.nightTemp + '~' + dayWeather.dayTemp + '℃');
+            }
+           document.getElementById('weatherF').innerHTML = str;
+        });
+    });
+	}
+</script>
+</body>
+</html>

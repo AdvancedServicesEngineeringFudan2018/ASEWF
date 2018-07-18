@@ -1,0 +1,33 @@
+button {
+	height: 35px;
+	border-width: 0px;
+	border-radius: 3px;
+	background: #1E90FF; 
+	cursor: pointer;
+	outline: none;
+	font-family: Microsoft YaHei;
+	color: white;
+	margin-right: 5px;
+}
+
+#location, #result {
+	padding:8px;
+	background:#eff7ff";
+}
+
+#inputAddress {
+	padding:8px;
+	margin: 5px;
+}
+
+#weather, #weatherF {
+	padding:8px;
+	border:1px solid #96c2f1;
+	background:#eff7ff;
+	display: inline-block;
+}
+
+
+#info {
+	width: 600px;
+}
